@@ -67,7 +67,8 @@ def preprocess_image(image_path):
 
 # Launch the app
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    port = int(os.environ.get("PORT", 5001))  # use Render's assigned port
+    app.run(host="0.0.0.0", port=port)
 
 
 
