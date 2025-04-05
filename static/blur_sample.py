@@ -4,7 +4,7 @@ from PIL import Image, ImageFilter
 image = Image.open("static/sample.jpg")
 
 # Apply Gaussian blur
-blurred_image = image.filter(ImageFilter.GaussianBlur(radius=15))
+blurred_image = image.filter(ImageFilter.GaussianBlur(radius=45))
 
 # Save the blurred image back into static/
 blurred_image.save("static/sample_blurred.jpg")
