@@ -43,6 +43,42 @@
       top: 4px;
     }
 
+    /* === Header Sections === */
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
+}
+
+/* === Navigation Buttons === */
+/* === Navigation Buttons === */
+.nav-button {
+  padding: 10px 20px;
+  border: 2px solid #3a9144;
+  background-color: white;
+  color: #3a9144;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.95rem;
+  border-radius: 0;
+  min-width: 100px;
+  text-align: center;
+  display: inline-block;
+  line-height: 1.2;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-button:hover {
+  background-color: #3a9144;
+  color: white;
+}
+
+
     /* === Sections & Boxes === */
     .section {
       display: flex;
@@ -196,28 +232,30 @@
   background-color: #3a9144;
   color: white;
   font-weight: 500;
-  font-size: 1rem;            /* keep font the same */
-  padding: 20px 55px;         /* ⬅️ increase button size */
-  border-radius: 42px;        /* more pill-shaped */
+  font-size: 1rem;
+  padding: 20px 55px;
+  border-radius: 42px;
   text-decoration: none;
   margin-bottom: 40px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: inline-block;
   max-width: 90%;
   line-height: 1.4;
+  text-align: center;
+  cursor: pointer;
+  will-change: transform, box-shadow; /* Helps browser optimize the hover */
+}
+.detect-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-
-    .detect-button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
     .detect-img {
-      width: 360px;
-      height: auto;
-      margin-top: 10px;
-    }
+  width: 700px;
+  height: auto;
+  margin-top: -120px; /* or whatever spacing you want */
+}
+
   </style>
 </head>
 
@@ -228,6 +266,11 @@
       <img src="{{ url_for('static', filename='icons/scoliosisai_logo.png') }}" alt="ScoliosisAI Logo">
       <h1>ScoliosisAI</h1>
     </a>
+  </div>
+  <div class="header-right">
+    <a href="{{ url_for('home') }}" class="nav-button">Home</a>
+    <a href="{{ url_for('diagnosis') }}" class="nav-button">Diagnosis</a>
+  </div>
   </header>
 
   <!-- Section 1 -->

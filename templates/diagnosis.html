@@ -35,6 +35,40 @@ header h1 {
   top: 4px; 
 }
 
+/* === Header Sections === */
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
+}
+
+/* === Navigation Buttons === */
+.nav-button {
+  padding: 10px 20px;
+  border: 2px solid #3a9144;
+  background-color: white;
+  color: #3a9144;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.95rem;
+  border-radius: 0;
+  min-width: 100px;
+  text-align: center;
+  display: inline-block;
+  line-height: 1.2;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-button:hover {
+  background-color: #3a9144;
+  color: white;
+}
+
 
 
     main {
@@ -249,6 +283,11 @@ footer {
       <img src="{{ url_for('static', filename='icons/scoliosisai_logo.png') }}" alt="ScoliosisAI Logo">
       <h1>ScoliosisAI</h1>
     </a>
+  </div>
+  <div class="header-right">
+    <a href="{{ url_for('home') }}" class="nav-button">Home</a>
+    <a href="{{ url_for('diagnosis') }}" class="nav-button">Diagnosis</a>
+  </div>
   </header>
   
 
@@ -312,10 +351,13 @@ footer {
     
 
     <footer class="fade-in show">
-      <p>Please note that this AI model has a 72% accuracy and may not be correct all the times. To understand more about the symptoms, please visit the website for more information.</p>
+      <p>Please note that this AI model has a 82% accuracy and may not be correct all the times. To understand more about the symptoms, please visit the website for more information.</p>
       <p>If you believe you may have risks of scoliosis, we highly recommend you find a doctor with professional equipments to perform a proper scoliosis diagnosis through scoliometer or x-ray.</p>
       <p>If you wish to contribute this image as a photo for training purposes, please email us a high quality photo of your bare back and a medical record that indicates you do/do not have scoliosis.</p>
-      <p>Email: <a href="mailto:alyssagong07@gmail.com" style="color: #3a9144; font-weight: bold;">alyssagong07@gmail.com</a></p>
+      <p>Email: 
+        <a href="mailto:alyssagong07@gmail.com" style="color: #3a9144; font-weight: bold;">alyssagong07@gmail.com</a> &nbsp;|&nbsp; 
+        <a href="mailto:bryanchiu88@gmail.com" style="color: #3a9144; font-weight: bold;">bryanchiu88@gmail.com</a>
+      </p>      
     </footer>
     {% endif %}
   </main>
