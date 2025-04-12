@@ -7,7 +7,7 @@ import os
 from werkzeug.utils import secure_filename
 from model_file import AttentionCNN  # Replace with your actual model file if needed
 
-print("app.py is running...") # Confirm running
+print("app.py is running...")
 
 app = Flask(__name__)
 
