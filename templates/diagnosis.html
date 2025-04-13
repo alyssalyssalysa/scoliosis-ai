@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ScoliosisAI</title>
+  <link href="https://fonts.cdnfonts.com/css/open-sauce-sans" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #c6e3c4;
+    }
+
+    header {
+  background-color: white;
+  padding: 20px 20px 50px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+header img {
+  height: 80px;         /* slightly smaller for balance */
+  margin-right: 12px;   /* tighter space between logo and text */
+}
+
+header h1 {
+  font-size: 1.8rem;
+  margin: 0;
+  font-family: 'Open Sauce Sans', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  position: relative;
+  top: 4px; 
+}
+
+/* === Header Sections === */
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
+}
+
+/* === Navigation Buttons === */
+.nav-button {
+  padding: 10px 20px;
+  border: 2px solid #3a9144;
+  background-color: white;
+  color: #3a9144;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.95rem;
+  border-radius: 0;
+  min-width: 100px;
+  text-align: center;
+  display: inline-block;
+  line-height: 1.2;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-button:hover {
+  background-color: #3a9144;
+  color: white;
+}
+
+
+
+    main {
+      padding: 80px 30px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      min-height: 75vh;
+    }
+
+    .upload-preview-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: nowrap;
+      gap: 80px;
+      margin-bottom: 40px;
+      width: 100%;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .upload-image-wrapper {
+      width: 300px;
+      height: 480px;
+      position: relative;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .upload-box,
+    .sample-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .upload-btn,
+    .sample-btn {
+      background-color: #3a9144;
+      color: white;
+      width: 360px;
+      height: 72px;
+      padding: 0 24px;
+      border-radius: 28px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: center;
+      line-height: 1.3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .upload-btn:hover,
+    .sample-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .image-placeholder {
+      width: 100%;
+      height: 100%;
+      background-color: #efefef;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .results-section {
+  width: 100%;
+  background-color: #6aa973;
+  padding: 75px 30px 55px; /* more top/bottom padding = taller bar */
+  min-height: 150px;  /* ensures it’s visually longer */
+  text-align: center;
+  color: white;
+}
+
+
+
+    .results-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.results-header img {
+  height: 60px;
+}
+.results-section h2 {
+  font-size: 2.5rem; /* bigger title */
+  margin: 0 0 20px; /* optional space below */
+  font-weight: 700;
+}
+
+.results-section .diagnosis {
+  font-size: 1.75rem;
+  margin-top: 5px;
+  text-align: center;
+}
+
+
+footer {
+  margin: 30px auto 160px; /* top, sides, bottom */
+  max-width: 700px;
+  font-size: 0.98rem;
+  text-align: center;
+  color: #222;
+}
+
+
+    .sample-image-wrapper {
+      position: relative;
+      width: 300px;
+      height: 480px;
+      margin: 0 auto;
+    }
+
+    .blurred-image img,
+    .image-placeholder {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: none;
+    }
+
+    .lock-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .lock-overlay img {
+      width: 160px;
+      height: 160px;
+      opacity: 0.95;
+    }
+
+    .warning-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border-radius: 8px;
+      padding: 0;
+      box-sizing: border-box;
+      z-index: 5;
+    }
+
+    .warning-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      padding: 0 20px;
+      box-sizing: border-box;
+      color: black;
+      font-size: 1rem;
+      gap: 16px;
+    }
+
+    .warning-text button,
+    #hideBtn {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      border-radius: 20px;
+      background-color: #3a9144;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .fade-in.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <a href="{{ url_for('home') }}" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+      <img src="{{ url_for('static', filename='icons/scoliosisai_logo.png') }}" alt="ScoliosisAI Logo">
+      <h1>ScoliosisAI</h1>
+    </a>
+  </div>
+  <div class="header-right">
+    <a href="{{ url_for('home') }}" class="nav-button">Home</a>
+    <a href="{{ url_for('diagnosis') }}" class="nav-button">Diagnosis</a>
+  </div>
+  </header>
+  
+
+  <main>
+    <div class="upload-preview-section">
+      <!-- Upload Box -->
+      <div class="upload-box">
+        <form method="POST" enctype="multipart/form-data">
+          <label for="imageUpload" class="upload-btn">
+            Upload an image of your back<br>to get a free diagnosis!
+          </label>
+          <input type="file" id="imageUpload" name="image" accept="image/*" onchange="this.form.submit()" hidden>
+        </form>
+
+        <div class="upload-image-wrapper">
+          <div class="image-placeholder {% if image_url %}fade-in show{% endif %}">
+            {% if image_url %}
+              <img src="{{ image_url }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+            {% else %}
+              <div style="text-align: center; font-weight: bold; padding: 20px;">
+                YOUR UPLOADED IMAGE<br>APPEARS HERE
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample Box -->
+      <div class="sample-box">
+        <button class="sample-btn" onclick="showWarning()">Preview a<br>sample image</button>
+
+        <div class="sample-image-wrapper">
+          <div class="lock-overlay" id="lockOverlay">
+            <img src="{{ url_for('static', filename='icons/lock_icon.png') }}" alt="Locked">
+          </div>
+
+          <div class="blurred-image" id="sampleImage">
+            <img id="sample-img-tag" src="{{ url_for('static', filename='sample_blurred.jpg') }}" alt="Sample image blurred">
+          </div>          
+
+          <div class="warning-overlay" id="warningBox">
+            <div class="warning-text">
+              <strong>WARNING:</strong><br>
+              <strong>This image may contain inappropriate content that will make you feel uncomfortable.</strong>
+              <button onclick="unblurImage()">View Image</button>
+            </div>
+          </div>
+        </div>
+
+        <button id="hideBtn" onclick="hideImage()" style="display: none;">Hide Image</button>
+      </div>
+    </div>
+
+    {% if prediction %}
+    <div class="results-section fade-in show">
+      <div class="results-header">
+        <h2><u>Results</u></h2>
+      </div>
+      <div class="diagnosis">{{ prediction }}</div>
+    </div>
+    
+
+    <footer class="fade-in show">
+      <p>Please note that this AI model has a 82% accuracy and may not be correct all the times. To understand more about the symptoms, please visit the website for more information.</p>
+      <p>If you believe you may have risks of scoliosis, we highly recommend you find a doctor with professional equipments to perform a proper scoliosis diagnosis through scoliometer or x-ray.</p>
+      <p>If you wish to contribute this image as a photo for training purposes, please email us a high quality photo of your bare back and a medical record that indicates you do/do not have scoliosis.</p>
+      <p>Email: 
+        <a href="mailto:alyssagong07@gmail.com" style="color: #3a9144; font-weight: bold;">alyssagong07@gmail.com</a> &nbsp;|&nbsp; 
+        <a href="mailto:bryanchiu88@gmail.com" style="color: #3a9144; font-weight: bold;">bryanchiu88@gmail.com</a>
+      </p>      
+    </footer>
+    {% endif %}
+  </main>
+
+  <script>
+    function showWarning() {
+      document.getElementById("warningBox").style.display = "flex";
+      document.getElementById("lockOverlay").style.display = "none";
+    }
+  
+    function unblurImage() {
+      // swap the src to the real image
+      document.getElementById("sample-img-tag").src = "{{ url_for('static', filename='sample.jpg') }}";
+      
+      document.getElementById("lockOverlay").style.display = "none";
+      document.getElementById("warningBox").style.display = "none";
+      document.getElementById("hideBtn").style.display = "block";
+    }
+  
+    function hideImage() {
+      // revert back to the blurred image
+      document.getElementById("sample-img-tag").src = "{{ url_for('static', filename='sample_blurred.jpg') }}";
+  
+      document.getElementById("lockOverlay").style.display = "block";
+      document.getElementById("warningBox").style.display = "none";
+      document.getElementById("hideBtn").style.display = "none";
+    }
+    window.onload = function () {
+    const resultSection = document.querySelector('.results-section');
+    if (resultSection) {
+      resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+  </script>
+  
+</body>
+</html>
+
+
+
+
+
+
+
+

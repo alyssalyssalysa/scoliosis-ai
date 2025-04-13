@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ScoliosisAI</title>
+  <link href="https://fonts.cdnfonts.com/css/open-sauce-sans" rel="stylesheet">
+  <style>
+    /* === Global Styles === */
+    body {
+      margin: 0;
+      font-family: 'Open Sauce Sans', sans-serif;
+      background-color: #c6e3c4;
+    }
+
+    /* === Header === */
+    header {
+      background-color: white;
+      padding: 20px 20px 50px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    header a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    header img {
+      height: 80px;
+      margin-right: 12px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin: 0;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      position: relative;
+      top: 4px;
+    }
+
+    /* === Header Sections === */
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
+}
+
+/* === Navigation Buttons === */
+/* === Navigation Buttons === */
+.nav-button {
+  padding: 10px 20px;
+  border: 2px solid #3a9144;
+  background-color: white;
+  color: #3a9144;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.95rem;
+  border-radius: 0;
+  min-width: 100px;
+  text-align: center;
+  display: inline-block;
+  line-height: 1.2;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-button:hover {
+  background-color: #3a9144;
+  color: white;
+}
+
+
+    /* === Sections & Boxes === */
+    .section {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100vw;
+      margin: 0;
+    }
+
+    .box {
+      flex: 1;
+      min-width: 300px;
+      padding: 60px 40px;
+      background-color: #9ccaab;
+      box-sizing: border-box;
+      min-height: 700px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+    }
+
+    .box.dark {
+      background-color: #5b865e;
+      color: white;
+    }
+
+    .box.dark strong {
+      color: white;
+    }
+
+    /* === Box Title === */
+    .box-title {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      padding-top: 20px;
+    }
+
+    .box h2,
+    .detect-title {
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: center;
+      margin: 0;
+    }
+
+    /* === Paragraphs === */
+    .box p {
+      max-width: 460px;
+      text-align: center;
+      margin: 0 auto 20px;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    /* === Icons === */
+    .box-icon {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 20px;
+    }
+
+    /* === CTA Button === */
+    .cta-button {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 1.1rem;
+      padding: 16px 32px;
+      border-radius: 32px;
+      background-color: #3a9144;
+      border: none;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .cta-button:hover {
+      transform: scale(1.08);
+    }
+
+    .goal-steps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 120px;
+}
+
+.goal-bubble {
+  width: 90%;
+  max-width: 520px;
+  padding: 32px 40px;
+  border-radius: 24px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: black;
+  text-align: center;
+  border: 1.5px solid #ffffff33;
+  background-color: #e3f1df;
+  position: relative;
+  z-index: 1;
+}
+
+/* === Step 1 === */
+.step1 {
+  box-shadow: -12px 12px 18px rgba(0, 0, 0, 0.3);
+  transform: rotate(-4deg);
+  margin-bottom: -6px;
+  border: 2.5px solid #469b50;
+  background: linear-gradient(135deg, #e3f1df, #cce4c6);
+}
+
+/* === Step 2 === */
+.step2 {
+  box-shadow: 12px 12px 18px rgba(0, 0, 0, 0.3);
+  transform: rotate(4deg);
+  z-index: 2;
+  border: 2.5px solid #2b7133;
+  background: linear-gradient(135deg, #b6d6b3, #9ebd94); /* ⬅️ darker green tone */
+}
+
+/* === Step 3 === */
+.step3 {
+  box-shadow: -12px 12px 18px rgba(0, 0, 0, 0.3);
+  transform: rotate(-3deg);
+  margin-top: -6px;
+  z-index: 0;
+  border: 2.5px solid #469b50;
+  background: linear-gradient(135deg, #e3f1df, #cce4c6);
+}
+
+
+
+    /* === Detect Now Box === */
+    .detect-box {
+      background-color: #9ccaab;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .detect-button {
+  background-color: #3a9144;
+  color: white;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 20px 55px;
+  border-radius: 42px;
+  text-decoration: none;
+  margin-bottom: 40px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: inline-block;
+  max-width: 90%;
+  line-height: 1.4;
+  text-align: center;
+  cursor: pointer;
+  will-change: transform, box-shadow; /* Helps browser optimize the hover */
+}
+.detect-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+    .detect-img {
+  width: 700px;
+  height: auto;
+  margin-top: -120px; /* or whatever spacing you want */
+}
+
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a href="{{ url_for('home') }}">
+      <img src="{{ url_for('static', filename='icons/scoliosisai_logo.png') }}" alt="ScoliosisAI Logo">
+      <h1>ScoliosisAI</h1>
+    </a>
+  </div>
+  <div class="header-right">
+    <a href="{{ url_for('home') }}" class="nav-button">Home</a>
+    <a href="{{ url_for('diagnosis') }}" class="nav-button">Diagnosis</a>
+  </div>
+  </header>
+
+  <!-- Section 1 -->
+  <div class="section">
+    <div class="box">
+      <div class="box-title">
+        <h2>ScoliosisAI</h2>
+      </div>
+      <p>
+        ScoliosisAI is a student-led organization founded to make convenient early detection through AI and community support.
+      </p>
+      <p>
+        The ideal time for scoliosis correction is before puberty. However, several of our team members were diagnosed in their late teenage years, resulting in the need for more intensive treatment.
+      </p>
+      <p>
+        To ensure other teenagers, especially those in under-resourced communities, do not experience the same delays, we strive to make detection of scoliosis easily accessible.
+      </p>
+    </div>
+
+    <div class="box dark">
+      <div class="box-title">
+        <h2>What is Scoliosis?</h2>
+      </div>
+      <p>
+        Scoliosis is a lateral <strong>curvature</strong> of the <strong>spine</strong>. Globally, approximately <strong>3%</strong> of adolescents have idiopathic scoliosis, a condition with no known cause.
+      </p>
+      <p>
+        That is approximately the entire population of the United States!
+      </p>
+      <p>
+        <strong>Early detection</strong> is often <strong>missed</strong> due to the <strong>inconvenience</strong> of <strong>X-rays</strong> or the limited availability of screening equipment and programs.
+      </p>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section">
+    <div class="box dark">
+      <div class="box-title">
+        <h2>Our Solution</h2>
+      </div>
+      <p>Make early detection of scoliosis accessible and free of specialized hardware:</p>
+      <div class="goal-steps">
+        <div class="goal-bubble step1">
+          1) Capture an image of the subject’s bare back safely and anonymously using the smartphone camera.
+        </div>
+        <div class="goal-bubble step2">
+          2) Utilize a digital scoliometer with the smartphone’s gyroscope and accelerometer to measure spine angle.
+        </div>
+        <div class="goal-bubble step3">
+          3) Provide resources and community support on early detection, diagnosis, and treatment.
+        </div>
+      </div>
+    </div>
+
+    <div class="box detect-box">
+      <div class="box-title">
+        <h2 class="detect-title">DETECT NOW!</h2>
+      </div>
+      <a href="{{ url_for('diagnosis') }}" class="detect-button">
+        Upload an image of your back<br>to get a free diagnosis!
+      </a>
+      <img src="{{ url_for('static', filename='icons/person.png') }}" alt="Person Icon" class="detect-img">
+    </div>
+  </div>
+
+</body>
+</html>
+
+
