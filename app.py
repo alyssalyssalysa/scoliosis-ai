@@ -52,7 +52,8 @@ def preprocess_image(image_path):
         raise ValueError(f"Failed to process image: {e}")
 # Launch the app
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True, host="0.0.0.0", port=10000)
+
 
 
 
