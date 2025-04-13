@@ -1,54 +1,64 @@
-from flask import Flask, request, render_template, url_for
-import os
-from werkzeug.utils import secure_filename
+import torch
+from fastapi import FastAPI
+from pydantic import BaseModel
 from PIL import Image
-import gdown
+import io
+import numpy as np
 
-print("app.py is running...")
+# Assuming you have a model class like this (replace with your actual model)
+class YourModelClass(torch.nn.Module):
+    def __init__(self):
+        super(YourModelClass, self).__init__()
+        # Define your model layers here
+        self.fc = torch.nn.Linear(224 * 224 * 3, 2)  # Example, adjust based on your model
 
-app = Flask(__name__)
+    def forward(self, x):
+        # Define your forward pass here
+        return self.fc(x)
 
-# === Upload folder setup ===
-UPLOAD_FOLDER = "static/uploads"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+# Initialize FastAPI app
+app = FastAPI()
 
-# === Homepage ===
-@app.route("/")
-def home():
-    return render_template("home.html")
+# Load the model
+model = YourModelClass()
+model.load_state_dict(torch.load('model_ver7.task'))  # Load your trained model's weights
+model.eval()  # Set the model to evaluation mode
 
-# === Diagnosis page ===
-@app.route("/diagnosis", methods=["GET", "POST"])
-def diagnosis():
-    prediction = None
-    image_url = None
+# Pydantic model for handling image input
+class ImageRequest(BaseModel):
+    image: str  # The image will be base64-encoded
 
-    if request.method == "POST" and "image" in request.files:
-        image_file = request.files["image"]
-        filename = secure_filename(image_file.filename)
-        filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-        image_file.save(filepath)
+# Endpoint for image prediction
+@app.post("/predict")
+async def predict(data: ImageRequest):
+    # Decode the base64 image
+    image_data = io.BytesIO(base64.b64decode(data.image))
+    img = Image.open(image_data)
 
-        try:
-            image_url = url_for("static", filename=f"uploads/{filename}")
-            # Simple placeholder for diagnosis, you can replace this with actual logic later
-            prediction = "🚨 Scoliosis Detected 🚨"  # This can be replaced by your actual model inference
+    # Preprocess the image (resize to match the input size of your model)
+    img = img.resize((224, 224))  # Adjust size if needed based on your model
+    img = np.array(img)  # Convert to numpy array
 
-        except Exception as e:
-            prediction = f"Error: {str(e)}"
+    # Normalize the image if needed (example: normalize to range [0, 1])
+    img = img / 255.0  # Normalize if needed
 
-    return render_template("diagnosis.html", prediction=prediction, image_url=image_url)
+    # Convert the image to a tensor
+    img_tensor = torch.tensor(img).float()
 
-# === Run the app ===
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5001))
-    app.run(host="0.0.0.0", port=port)
+    # Add batch dimension (model expects batch, even if it's just one image)
+    img_tensor = img_tensor.unsqueeze(0)  # Add batch dimension
 
-if not os.path.exists("model_ver7.task"):
-    url = 'https://drive.google.com/uc?export=download&id=1rukufNaU_7wBy7HVYaiJhCWmSI6RTVN5'
-    output = 'model_ver7.task'
-    gdown.download(url, output, quiet=False)
+    # Make a prediction
+    with torch.no_grad():  # No need to compute gradients for inference
+        output = model(img_tensor)
+
+    # Assuming output is a logits tensor, convert it to predicted class
+    _, predicted_class = torch.max(output, 1)
+
+    return {"prediction": predicted_class.item()}  # Return the predicted class
+
+
+
 
 
 
