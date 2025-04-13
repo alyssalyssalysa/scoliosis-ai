@@ -13,15 +13,21 @@ app = Flask(__name__)
 # === Load PyTorch Model (conditionally) ===
 try:
     import torch
+    from torchvision import transforms
+    from model_file import AttentionCNN
+    print("PyTorch is available.")
+    
+    # Model loading
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = AttentionCNN()
     model.load_state_dict(torch.load("model_ver7.task", map_location=device))  # Load model if PyTorch is available
     model.to(device)
     model.eval()
-    print("Model loaded successfully with PyTorch.")
+
 except ModuleNotFoundError:
-    model = None
     print("PyTorch not found. Model will not be loaded until PyTorch is installed.")
+    model = None  # Model will not be loaded if PyTorch is missing
+
 
 # === Upload folder setup ===
 UPLOAD_FOLDER = "static/uploads"
