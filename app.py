@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, url_for
 import os
 from werkzeug.utils import secure_filename
 from PIL import Image
+import gdown
 
 print("app.py is running...")
 
@@ -43,6 +44,13 @@ def diagnosis():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5001))
     app.run(host="0.0.0.0", port=port)
+
+if not os.path.exists("model_ver7.task"):
+    url = 'https://drive.google.com/uc?export=download&id=1rukufNaU_7wBy7HVYaiJhCWmSI6RTVN5'
+    output = 'model_ver7.task'
+    gdown.download(url, output, quiet=False)
+
+
 
 
 
