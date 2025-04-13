@@ -1,61 +1,58 @@
-import torch
-from fastapi import FastAPI
-from pydantic import BaseModel
-from PIL import Image
-import io
+from flask import Flask, request, render_template, url_for
 import numpy as np
-
-# Assuming you have a model class like this (replace with your actual model)
-class YourModelClass(torch.nn.Module):
-    def __init__(self):
-        super(YourModelClass, self).__init__()
-        # Define your model layers here
-        self.fc = torch.nn.Linear(224 * 224 * 3, 2)  # Example, adjust based on your model
-
-    def forward(self, x):
-        # Define your forward pass here
-        return self.fc(x)
-
-# Initialize FastAPI app
-app = FastAPI()
-
-# Load the model
-model = YourModelClass()
-model.load_state_dict(torch.load('model_ver7.task'))  # Load your trained model's weights
-model.eval()  # Set the model to evaluation mode
-
-# Pydantic model for handling image input
-class ImageRequest(BaseModel):
-    image: str  # The image will be base64-encoded
-
-# Endpoint for image prediction
-@app.post("/predict")
-async def predict(data: ImageRequest):
-    # Decode the base64 image
-    image_data = io.BytesIO(base64.b64decode(data.image))
-    img = Image.open(image_data)
-
-    # Preprocess the image (resize to match the input size of your model)
-    img = img.resize((224, 224))  # Adjust size if needed based on your model
-    img = np.array(img)  # Convert to numpy array
-
-    # Normalize the image if needed (example: normalize to range [0, 1])
-    img = img / 255.0  # Normalize if needed
-
-    # Convert the image to a tensor
-    img_tensor = torch.tensor(img).float()
-
-    # Add batch dimension (model expects batch, even if it's just one image)
-    img_tensor = img_tensor.unsqueeze(0)  # Add batch dimension
-
-    # Make a prediction
-    with torch.no_grad():  # No need to compute gradients for inference
-        output = model(img_tensor)
-
-    # Assuming output is a logits tensor, convert it to predicted class
-    _, predicted_class = torch.max(output, 1)
-
-    return {"prediction": predicted_class.item()}  # Return the predicted class
+import joblib
+from PIL import Image
+import os
+from werkzeug.utils import secure_filename
+print("app.py is running...")
+app = Flask(__name__)
+# Load the trained model
+model = joblib.load("knn_model_0726.task")
+# Folder to store uploaded files
+UPLOAD_FOLDER = "static/uploads"
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+# ✅ Now this is the homepage
+@app.route("/")
+def home():
+    return render_template("home.html")
+# ✅ Diagnosis page moved to /diagnosis
+@app.route("/diagnosis", methods=["GET", "POST"])
+def diagnosis():
+    prediction = None
+    image_url = None
+    if request.method == "POST":
+        if "image" in request.files:
+            image_file = request.files["image"]
+            filename = secure_filename(image_file.filename)
+            filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            image_file.save(filepath)
+            try:
+                features = preprocess_image(filepath)
+                pred = model.predict(features)
+                prediction = "✅ No Scoliosis Detected ✅" if pred[0] == 0 else "🚨 Scoliosis Detected 🚨"
+                image_url = url_for("static", filename=f"uploads/{filename}")
+            except Exception as e:
+                prediction = f"Error: {str(e)}"
+    return render_template("diagnosis.html", prediction=prediction, image_url=image_url)
+# Image preprocessing
+def preprocess_image(image_path):
+    if not os.path.isfile(image_path):
+        raise ValueError(f"Path is not a file: {image_path}")
+    try:
+        image = Image.open(image_path)
+        image = image.resize((224, 224))
+        image = image.convert("RGB")
+        image_array = np.array(image).flatten()
+        if image_array.shape[0] != 150528:
+            raise ValueError(f"Expected 150528 features, got {image_array.shape[0]}")
+        return image_array.reshape(1, -1)
+    except Exception as e:
+        raise ValueError(f"Failed to process image: {e}")
+# Launch the app
+if __name__ == "__main__":
+    app.run(debug=True, port=5001)
 
 
 
