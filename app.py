@@ -6,15 +6,23 @@ from PIL import Image
 import os
 from werkzeug.utils import secure_filename
 from model_file import AttentionCNN  # Replace with your actual model file if needed
+import gdown
 
 print("app.py is running...")
 
 app = Flask(__name__)
 
+# === Download the model if it doesn't exist locally ===
+model_filename = 'model_ver7.task'
+if not os.path.exists(model_filename):
+    print("Model not found. Downloading from Google Drive...")
+    url = 'https://drive.google.com/uc?id=1rukufNaU_7wBy7HVYaiJhCWmSI6RTVN5'  # Replace with your Google Drive file ID
+    gdown.download(url, model_filename, quiet=False)
+
 # === Load PyTorch Model ===
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = AttentionCNN()
-model.load_state_dict(torch.load("model_ver7.task", map_location=device))  # Replace with your filename
+model.load_state_dict(torch.load(model_filename, map_location=device))  # Load the downloaded model
 model.to(device)
 model.eval()
 
@@ -75,17 +83,3 @@ def preprocess_image(image_path):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5001))
     app.run(host="0.0.0.0", port=port)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
