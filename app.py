@@ -1,30 +1,27 @@
-from flask import Flask, request, render_template, url_for
-import torch
-import torch.nn as nn
-from torchvision import transforms
-from PIL import Image
-import os
-from werkzeug.utils import secure_filename
-from model_file import AttentionCNN  # Replace with your actual model file if needed
 import gdown
+import os
+import torch
+from model_file import AttentionCNN
+from flask import Flask, request, render_template, url_for
+from werkzeug.utils import secure_filename
+from PIL import Image
 
 print("app.py is running...")
 
 app = Flask(__name__)
 
-# === Download the model if it doesn't exist locally ===
-model_filename = 'model_ver7.task'
-if not os.path.exists(model_filename):
-    print("Model not found. Downloading from Google Drive...")
-    url = 'https://drive.google.com/uc?id=1rukufNaU_7wBy7HVYaiJhCWmSI6RTVN5'  # Replace with your Google Drive file ID
-    gdown.download(url, model_filename, quiet=False)
-
-# === Load PyTorch Model ===
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = AttentionCNN()
-model.load_state_dict(torch.load(model_filename, map_location=device))  # Load the downloaded model
-model.to(device)
-model.eval()
+# === Load PyTorch Model (conditionally) ===
+try:
+    import torch
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = AttentionCNN()
+    model.load_state_dict(torch.load("model_ver7.task", map_location=device))  # Load model if PyTorch is available
+    model.to(device)
+    model.eval()
+    print("Model loaded successfully with PyTorch.")
+except ModuleNotFoundError:
+    model = None
+    print("PyTorch not found. Model will not be loaded until PyTorch is installed.")
 
 # === Upload folder setup ===
 UPLOAD_FOLDER = "static/uploads"
@@ -50,11 +47,14 @@ def diagnosis():
 
         try:
             input_tensor = preprocess_image(filepath)
-            with torch.no_grad():
-                output = model(input_tensor)
-                predicted_class = torch.argmax(output, dim=1).item()
-                prediction = "✅ No Scoliosis Detected ✅" if predicted_class == 0 else "🚨 Scoliosis Detected 🚨"
-                image_url = url_for("static", filename=f"uploads/{filename}")
+            if model:  # Check if the model is loaded
+                with torch.no_grad():
+                    output = model(input_tensor)
+                    predicted_class = torch.argmax(output, dim=1).item()
+                    prediction = "✅ No Scoliosis Detected ✅" if predicted_class == 0 else "🚨 Scoliosis Detected 🚨"
+                    image_url = url_for("static", filename=f"uploads/{filename}")
+            else:
+                prediction = "Error: PyTorch is not installed yet. Model cannot be used."
         except Exception as e:
             prediction = f"Error: {str(e)}"
 
@@ -83,3 +83,10 @@ def preprocess_image(image_path):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5001))
     app.run(host="0.0.0.0", port=port)
+
+# Download model from Google Drive (if PyTorch isn't found during runtime)
+if model is None:
+    url = 'https://drive.google.com/uc?id=YOUR_FILE_ID'  # Replace with your actual file ID
+    model_filename = 'model_ver7.task'
+    gdown.download(url, model_filename, quiet=False)
+
