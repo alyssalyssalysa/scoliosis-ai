@@ -24,6 +24,6 @@ typing_extensions==4.13.2
  uvicorn==0.34.0 
 Flask==2.1.2
 werkzeug==2.0.3
-joblibjoblib==1.4.2
+joblib==1.4.2
 scikit-learn==1.0.2
 
