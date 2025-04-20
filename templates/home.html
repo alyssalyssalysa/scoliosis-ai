@@ -11,6 +11,7 @@
       margin: 0;
       font-family: 'Open Sauce Sans', sans-serif;
       background-color: #c6e3c4;
+      padding-bottom: 0px;
     }
 
     /* === Header === */
@@ -21,42 +22,23 @@
       align-items: center;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-
-    header a {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    header img {
-      height: 80px;
-      margin-right: 12px;
-    }
-
+    .header-left { display: flex; align-items: center; }
+    header img.logo-img { height: 80px; margin-right: 12px; }
     header h1 {
-      font-size: 1.8rem;
-      margin: 0;
-      font-weight: 300;
-      letter-spacing: 0.5px;
-      position: relative;
-      top: 4px;
-    }
+  /* existing styles… */
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  color: #000;
 
-    /* === Header Sections === */
-.header-left {
-  display: flex;
-  align-items: center;
+  /* add these: */
+  position: relative;
+  top: 4px;
 }
 
-.header-right {
-  margin-left: auto;
-  display: flex;
-  gap: 16px;
-}
-
-/* === Navigation Buttons === */
-/* === Navigation Buttons === */
+    .header-right { margin-left: auto; display: flex; gap: 16px; }
+    /* === Navigation Buttons === */
 .nav-button {
   padding: 10px 20px;
   border: 2px solid #3a9144;
@@ -80,264 +62,334 @@
 
 
     /* === Sections & Boxes === */
-    .section {
-      display: flex;
-      flex-wrap: wrap;
-      width: 100vw;
-      margin: 0;
-    }
+.section {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100vw;
+  margin: 0;
+}
 
-    .box {
-      flex: 1;
-      min-width: 300px;
-      padding: 60px 40px;
-      background-color: #9ccaab;
-      box-sizing: border-box;
-      min-height: 700px;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      text-align: center;
-    }
-
-    .box.dark {
-      background-color: #5b865e;
-      color: white;
-    }
-
-    .box.dark strong {
-      color: white;
-    }
-
-    /* === Box Title === */
-    .box-title {
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      padding-top: 20px;
-    }
-
-    .box h2,
-    .detect-title {
-      font-size: 2rem;
-      font-weight: bold;
-      text-align: center;
-      margin: 0;
-    }
-
-    /* === Paragraphs === */
-    .box p {
-      max-width: 460px;
-      text-align: center;
-      margin: 0 auto 20px;
-      line-height: 1.8;
-      font-size: 1.1rem;
-    }
-
-    /* === Icons === */
-    .box-icon {
-      width: 60px;
-      height: 60px;
-      margin-bottom: 20px;
-    }
-
-    /* === CTA Button === */
-    .cta-button {
-      display: inline-block;
-      margin-top: 20px;
-      font-size: 1.1rem;
-      padding: 16px 32px;
-      border-radius: 32px;
-      background-color: #3a9144;
-      border: none;
-      color: white;
-      text-align: center;
-      text-decoration: none;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-
-    .cta-button:hover {
-      transform: scale(1.08);
-    }
-
-    .goal-steps {
+.box {
+  flex: 1;
+  min-width: 300px;
+  padding: 60px 40px;
+  background-color: #9ccaab;
+  min-height: 700px;   /* fallback for other sections */
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
-  margin-bottom: 120px;
+  text-align: center;
 }
 
-.goal-bubble {
-  width: 90%;
-  max-width: 520px;
-  padding: 32px 40px;
-  border-radius: 24px;
+.box.dark {
+  background-color: #5b865e;
+  color: white;
+}
+.box.dark strong { color: white; }
+
+.box-title {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding-top: 20px;
+}
+
+.box h2,
+.detect-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.box p {
+  max-width: 460px;
+  margin: 0 auto 20px;
+  line-height: 1.8;
   font-size: 1.1rem;
-  font-weight: 500;
-  line-height: 1.6;
-  color: black;
+}
+
+    /* === Goal Steps === */
+    .goal-steps { display: flex; flex-direction: column; align-items: center; margin: 20px 0 120px; }
+    .goal-bubble { width: 90%; max-width: 520px; padding: 32px 40px; border-radius: 24px; font-size: 1.1rem; font-weight: 500; line-height: 1.6; text-align: center; border: 1.5px solid #ffffff33; background-color: #e3f1df; color: black; position: relative; z-index:1; }
+    .step1 { box-shadow:-12px 12px 18px rgba(0,0,0,0.3); transform:rotate(-4deg); margin-bottom:-6px; border:2.5px solid #469b50; background:linear-gradient(135deg,#e3f1df,#cce4c6); }
+    .step2 { box-shadow:12px 12px 18px rgba(0,0,0,0.3); transform:rotate(4deg); border:2.5px solid #2b7133; background:linear-gradient(135deg,#b6d6b3,#9ebd94); }
+    .step3 { box-shadow:-12px 12px 18px rgba(0,0,0,0.3); transform:rotate(-3deg); margin-top:-6px; border:2.5px solid #469b50; background:linear-gradient(135deg,#e3f1df,#cce4c6); }
+
+    /* === Detect Box === */
+    .detect-box { background-color:#9ccaab; display:flex; flex-direction:column; align-items:center; }
+    .detect-button { background-color:#3a9144; color:white; font-weight:500; font-size:1rem; padding:20px 55px; border-radius:42px; text-decoration:none; margin-bottom:40px; transition:transform 0.2s ease; }
+    .detect-button:hover { transform:scale(1.05); }
+    .detect-img { width:700px; margin-top:-120px; pointer-events:none}
+
+    /* === Footer Bar (hidden until visible) & Play Button === */
+    /* === Footer Bar (hidden until visible) & Play/Close Buttons === */
+.footer-bar {
+  display: none;                /* keep it hidden until scrolled to bottom */
+  background-color: #4e7f4d;    /* your chosen green */
+  color: white;
   text-align: center;
-  border: 1.5px solid #ffffff33;
-  background-color: #e3f1df;
+  padding: 30px 0;              /* makes it nice and tall */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 -4px 8px rgba(0,0,0,0.1);
+}
+
+.footer-bar.visible {
+  display: flex;                /* show once sentinel is 100% in view */
+}
+
+/* Demo Video label */
+.footer-bar span {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+/* Play button */
+.footer-bar .play-button {
+  background-color: #3a9144;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.footer-bar .play-button:hover {
+  background-color: #2b7133;
+  transform: translateY(-2px);
+}
+.footer-bar .play-button:active {
+  transform: translateY(0);
+}
+
+/* Close button */
+.footer-bar .close-button {
+  display: none;                /* start hidden, shown via JS */
+  background-color: #c64b4b;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.footer-bar .close-button:hover {
+  background-color: #a43f3f;
+}
+.footer-bar .close-button:active {
+  transform: translateY(0);
+}
+
+/* Sentinel marker (no extra gap) */
+#footer-sentinel {
+  width: 100%;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* === shave ~1in off first section’s boxes (you already have this) === */
+.section:first-of-type .box {
+  min-height: 575px !important;
+}
+/* === Shrink the Detect box so the footer moves up === */
+.box.detect-box {
+  /* remove the forced 700px height */
+  min-height: auto !important;
+  /* if you still want a little breathing room, you can add padding-bottom */
+  padding-bottom: 20px; 
+}
+/* ===== Modal overlay ===== */
+.modal {
+  display: none;               /* hidden by default */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.85);
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Centered content */
+.modal-content {
   position: relative;
+  max-width: 90%;
+  max-height: 90%;
   z-index: 1;
 }
 
-/* === Step 1 === */
-.step1 {
-  box-shadow: -12px 12px 18px rgba(0, 0, 0, 0.3);
-  transform: rotate(-4deg);
-  margin-bottom: -6px;
-  border: 2.5px solid #469b50;
-  background: linear-gradient(135deg, #e3f1df, #cce4c6);
-}
-
-/* === Step 2 === */
-.step2 {
-  box-shadow: 12px 12px 18px rgba(0, 0, 0, 0.3);
-  transform: rotate(4deg);
-  z-index: 2;
-  border: 2.5px solid #2b7133;
-  background: linear-gradient(135deg, #b6d6b3, #9ebd94); /* ⬅️ darker green tone */
-}
-
-/* === Step 3 === */
-.step3 {
-  box-shadow: -12px 12px 18px rgba(0, 0, 0, 0.3);
-  transform: rotate(-3deg);
-  margin-top: -6px;
-  z-index: 0;
-  border: 2.5px solid #469b50;
-  background: linear-gradient(135deg, #e3f1df, #cce4c6);
-}
-
-
-
-    /* === Detect Now Box === */
-    .detect-box {
-      background-color: #9ccaab;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .detect-button {
-  background-color: #3a9144;
-  color: white;
-  font-weight: 500;
-  font-size: 1rem;
-  padding: 20px 55px;
-  border-radius: 42px;
-  text-decoration: none;
-  margin-bottom: 40px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  display: inline-block;
-  max-width: 90%;
-  line-height: 1.4;
-  text-align: center;
-  cursor: pointer;
-  will-change: transform, box-shadow; /* Helps browser optimize the hover */
-}
-.detect-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-    .detect-img {
-  width: 700px;
+/* Full‐width video, auto‐height */
+#modal-video {
+  width: 100%;
   height: auto;
-  margin-top: -120px; /* or whatever spacing you want */
+  border-radius: 8px;
+  background: black;
 }
+
+/* Close “X” */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: white;
+  color: #333;
+  border: none;
+  font-size: 1.8rem;
+  line-height: 1;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: background 0.2s ease;
+  z-index: 2;
+}
+.modal-close:hover {
+  background: #eee;
+}
+/* === Shrink second section completely to its content height === */
+.section:nth-of-type(2) .box {
+  /* remove the forced 700px height */
+  min-height: auto !important;
+  /* add a little breathing room if you like */
+  padding-bottom: 20px;
+}
+
 
   </style>
 </head>
-
 <body>
-
   <header>
-    <a href="{{ url_for('home') }}">
-      <img src="{{ url_for('static', filename='icons/scoliosisai_logo.png') }}" alt="ScoliosisAI Logo">
-      <h1>ScoliosisAI</h1>
-    </a>
-  </div>
-  <div class="header-right">
-    <a href="{{ url_for('home') }}" class="nav-button">Home</a>
-    <a href="{{ url_for('diagnosis') }}" class="nav-button">Diagnosis</a>
-  </div>
+    <div class="header-left">
+      <a href="{{ url_for('home') }}" style="display:flex; align-items:center; text-decoration:none; color:inherit;">
+        <img src="{{ url_for('static', filename='icons/scoliosisai_logo.png') }}" alt="ScoliosisAI Logo" class="logo-img">
+        <h1>ScoliosisAI</h1>
+      </a>
+    </div>
+    <div class="header-right">
+      <a href="{{ url_for('home') }}" class="nav-button">Home</a>
+      <a href="{{ url_for('diagnosis') }}" class="nav-button">Diagnosis</a>
+    </div>
   </header>
 
   <!-- Section 1 -->
   <div class="section">
     <div class="box">
-      <div class="box-title">
-        <h2>ScoliosisAI</h2>
-      </div>
-      <p>
-        ScoliosisAI is a student-led organization founded to make convenient early detection through AI and community support.
-      </p>
-      <p>
-        The ideal time for scoliosis correction is before puberty. However, several of our team members were diagnosed in their late teenage years, resulting in the need for more intensive treatment.
-      </p>
-      <p>
-        To ensure other teenagers, especially those in under-resourced communities, do not experience the same delays, we strive to make detection of scoliosis easily accessible.
-      </p>
+      <div class="box-title"><h2>ScoliosisAI</h2></div>
+      <p>ScoliosisAI is a student-led organization founded to make convenient early detection through AI and community support.</p>
+      <p>The ideal time for scoliosis correction is before puberty. However, several of our team members were diagnosed in their late teenage years, resulting in the need for more intensive treatment.</p>
+      <p>To ensure other teenagers, especially those in under-resourced communities, do not experience the same delays, we strive to make detection of scoliosis easily accessible.</p>
     </div>
 
     <div class="box dark">
-      <div class="box-title">
-        <h2>What is Scoliosis?</h2>
-      </div>
-      <p>
-        Scoliosis is a lateral <strong>curvature</strong> of the <strong>spine</strong>. Globally, approximately <strong>3%</strong> of adolescents have idiopathic scoliosis, a condition with no known cause.
-      </p>
-      <p>
-        That is approximately the entire population of the United States!
-      </p>
-      <p>
-        <strong>Early detection</strong> is often <strong>missed</strong> due to the <strong>inconvenience</strong> of <strong>X-rays</strong> or the limited availability of screening equipment and programs.
-      </p>
+      <div class="box-title"><h2>What is Scoliosis?</h2></div>
+      <p>Scoliosis is a lateral <strong>curvature</strong> of the <strong>spine</strong>. Globally, approximately <strong>3%</strong> of adolescents have idiopathic scoliosis, a condition with no known cause.</p>
+      <p>That is approximately the entire population of the United States!</p>
+      <p><strong>Early detection</strong> is often <strong>missed</strong> due to the <strong>inconvenience</strong> of <strong>X-rays</strong> or the limited availability of screening equipment and programs.</p>
     </div>
   </div>
 
   <!-- Section 2 -->
   <div class="section">
     <div class="box dark">
-      <div class="box-title">
-        <h2>Our Solution</h2>
-      </div>
+      <div class="box-title"><h2>Our Solution</h2></div>
       <p>Make early detection of scoliosis accessible and free of specialized hardware:</p>
       <div class="goal-steps">
-        <div class="goal-bubble step1">
-          1) Capture an image of the subject’s bare back safely and anonymously using the smartphone camera.
-        </div>
-        <div class="goal-bubble step2">
-          2) Utilize a digital scoliometer with the smartphone’s gyroscope and accelerometer to measure spine angle.
-        </div>
-        <div class="goal-bubble step3">
-          3) Provide resources and community support on early detection, diagnosis, and treatment.
-        </div>
+        <div class="goal-bubble step1">1) Capture an image of the subject’s bare back safely and anonymously using the smartphone camera.</div>
+        <div class="goal-bubble step2">2) Utilize a digital scoliometer with the smartphone’s gyroscope and accelerometer to measure spine angle.</div>
+        <div class="goal-bubble step3">3) Provide resources and community support on early detection, diagnosis, and treatment.</div>
       </div>
     </div>
 
     <div class="box detect-box">
-      <div class="box-title">
-        <h2 class="detect-title">DETECT NOW!</h2>
-      </div>
-      <a href="{{ url_for('diagnosis') }}" class="detect-button">
-        Upload an image of your back<br>to get a free diagnosis!
-      </a>
+      <div class="box-title"><h2 class="detect-title">DETECT NOW!</h2></div>
+      <a href="{{ url_for('diagnosis') }}" class="detect-button">Upload an image of your back<br>to get a free diagnosis!</a>
       <img src="{{ url_for('static', filename='icons/person.png') }}" alt="Person Icon" class="detect-img">
     </div>
   </div>
 
+  <!-- Sentinel: appears after all boxes -->
+  <div id="footer-sentinel"></div>
+
+  <!-- Footer Bar -->
+  <div class="footer-bar">
+    <span>Demo Video</span>
+  
+    <!-- video element, hidden by default -->
+    <video id="demo-video" controls
+           style="max-width: 90%; margin-top: 12px; display: none;">
+      <source src="{{ url_for('static', filename='Scoliosis AI Demo.mp4') }}"
+              type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  
+    <!-- Play + Close buttons -->
+    <button class="play-button">Play</button>
+    <button class="close-button" style="display: none;">Close</button>
+  </div>
+  <!-- Video Modal -->
+<div id="video-modal" class="modal">
+  <div class="modal-content">
+    <button class="modal-close">&times;</button>
+    <video id="modal-video" controls>
+      <source src="{{ url_for('static', filename='Scoliosis AI Demo.mp4') }}" type="video/mp4">
+      Your browser doesn’t support HTML5 video.
+    </video>
+  </div>
+</div>
+
+  
+
+<script>
+  const footer   = document.querySelector('.footer-bar');
+  const sentinel = document.getElementById('footer-sentinel');
+  const playBtn  = document.querySelector('.footer-bar .play-button');
+  const modal    = document.getElementById('video-modal');
+  const closeBtn = modal.querySelector('.modal-close');
+  const vid      = document.getElementById('modal-video');
+
+  // Show footer at page bottom
+  new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      footer.classList.toggle('visible', e.isIntersecting);
+    });
+  }, { threshold: 1.0 }).observe(sentinel);
+
+  // Open modal + play
+  playBtn.addEventListener('click', () => {
+    modal.style.display = 'flex';
+    vid.play();
+  });
+
+  // Close modal + reset
+  closeBtn.addEventListener('click', () => {
+    vid.pause();
+    vid.currentTime = 0;
+    modal.style.display = 'none';
+  });
+
+  // Optional: close on ESC
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.style.display === 'flex') {
+      closeBtn.click();
+    }
+  });
+</script>  
+  
 </body>
 </html>
+
+
+
+
 
 
